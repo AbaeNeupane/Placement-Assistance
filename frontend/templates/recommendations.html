@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Recommendations</title>
+  <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(rgba(10, 20, 40, 0.85), rgba(10, 20, 40, 0.85)), url(/static/recommendation.jpg) center/cover no-repeat fixed;
+      color: #f1f5f9;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav.container-fluid {
+      background: rgba(30, 41, 59, 0.92);
+      color: #fff;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      backdrop-filter: blur(6px);
+    }
+
+    nav a, nav strong {
+      color: #fff !important;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(30, 41, 59, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    main.container {
+      background: rgba(30, 41, 59, 0.55);
+      border-radius: 20px;
+      padding: 40px 28px 32px 28px;
+      max-width: 900px;
+      width: 100%;
+      margin: 48px auto 0 auto;
+      backdrop-filter: blur(18px) saturate(1.3);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.45);
+      border: 1.5px solid rgba(148, 163, 184, 0.13);
+      animation: fadeUp 0.7s ease;
+    }
+
+    h1, h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      color: #a5b4fc;
+      margin-bottom: 0.6em;
+      text-shadow: 0 2px 12px #2563eb44;
+    }
+
+    h3 {
+      color: #cbd5e1;
+      font-weight: 400;
+      margin-bottom: 1.5em;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      justify-content: center;
+    }
+
+    .col-md-6 {
+      display: flex;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .candidate-card {
+      position: relative;
+      background: rgba(51, 65, 85, 0.85);
+      border: 1.5px solid rgba(99, 102, 241, 0.18);
+      border-radius: 18px;
+      padding: 28px 24px 22px 24px;
+      box-shadow: 0 4px 24px 0 rgba(99, 102, 241, 0.10);
+      transition: 0.3s cubic-bezier(.4,2,.6,1);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(8px) saturate(1.2);
+    }
+
+    .candidate-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(99, 102, 241, 0.25);
+      transform: translateY(-4px) scale(1.025);
+      border-color: #6366f1;
+    }
+
+    .card-ids {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 0.9rem;
+      color: #93c5fd;
+      text-align: right;
+    }
+
+    .card-content {
+      margin-top: 56px;
+    }
+
+    .card-content h4 {
+      color: #e2e8f0;
+      margin-bottom: 0.8em;
+    }
+
+    .info-box {
+      background: rgba(71, 85, 105, 0.85);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      color: #f1f5f9;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.18);
+      display: flex;
+      align-items: center;
+      font-size: 0.97rem;
+      white-space: nowrap;
+      overflow-x: auto;
+      border: 1px solid rgba(148, 163, 184, 0.10);
+      backdrop-filter: blur(2px);
+    }
+
+    .info-box::before {
+      content: attr(data-icon) '\00a0';
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    .info-box[data-icon="🛠"] {
+      flex-direction: column;
+      align-items: flex-start;
+      white-space: normal;
+    }
+
+    .info-box[data-icon="🛠"]::before {
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+
+    a {
+      color: #60a5fa;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: #3b82f6;
+    }
+
+    .candidate-card button[type="submit"] {
+      width: 100%;
+      font-size: 1rem;
+      padding: 12px 0;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      font-weight: 500;
+      transition: 0.2s;
+      margin-top: 12px;
+      box-shadow: 0 2px 8px #6366f133;
+      letter-spacing: 0.02em;
+    }
+
+    .candidate-card button[type="submit"]:hover {
+      background: linear-gradient(90deg, #4338ca 0%, #2563eb 100%);
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+      }
+      .col-md-6 {
+        max-width: 100%;
+      }
+      .info-box {
+        white-space: normal;
+        overflow-wrap: break-word;
+      }
+      main.container {
+        padding: 18px 4vw 18px 4vw;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></li>
+    </ul>
+    <ul>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <hgroup>
+      <h1>Job Recommendations</h1>
+      <h3>Here are jobs based on your profile and preferences.</h3>
+    </hgroup><br>
+
+    {% if recommendations %}
+      {% if recommendations[0].get('No recommendations found.') %}
+        <h5>{{ recommendations[0]['No recommendations found.'] }}</h5>
+      {% else %}
+        <div class="row">
+          {% for job in recommendations %}
+          <div class="col-md-6 mb-4">
+            <div class="candidate-card">
+              <div class="card-ids">
+                <p>Company ID: {{ job['company id'] }}</p>
+                <p>Job ID: {{ job['job id'] }}</p>
+              </div>
+              <div class="card-content">
+                <h4>{{ job['Company'] }}</h4>
+                <div class="info-box"><strong>Job Title:</strong> &nbsp;{{ job['Job Title'] }}</div>
+                <div class="info-box"><strong>Salary:</strong> &nbsp;{{ job['Job Salary'] }}</div>
+                <div class="info-box"><strong>Experience:</strong> &nbsp;{{ job['Job Experience'] }}</div>
+                <div class="info-box"><strong>Skills:</strong> {{ job['Key Skills'] }}</div>
+                <div class="info-box"><strong>Industry:</strong> &nbsp;{{ job['Industry'] }}</div>
+                <div class="info-box" data-icon="🌐"><a href="{{ job.application_url }}" target="_blank">Company Information</a></div>
+                <form action="{{ url_for('apply_job') }}" method="POST">
+                  <input type="hidden" name="company_id" value="{{ job['company id'] }}" />
+                  <input type="hidden" name="job_title" value="{{ job['Job Title'] }}" />
+                  <button type="submit">Apply Now</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </main>
+</body>
+</html>
