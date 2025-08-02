@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Signup | Placement Assistance</title>
+  <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      /* Professional dark-blue palette */
+      --background-start: #0f172a; /* Very dark navy */
+      --background-end: #1e293b; /* Dark slate blue */
+      --card-bg: #1e293b;
+      --text-primary: #e0e7ff; /* Light periwinkle */
+      --text-secondary: #94a3b8; /* Soft slate gray */
+      --input-bg: #334155; /* Medium dark blue-gray */
+      --input-border: #64748b;
+      --input-focus: #2563eb; /* Bright blue */
+      --button-start: #2563eb;
+      --button-end: #3b82f6;
+      --button-hover-start: #1e40af;
+      --button-hover-end: #2563eb;
+      --shadow-color: rgba(37, 99, 235, 0.3);
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/static/signup.jpg") no-repeat center center fixed;
+        color: var(--text-primary);
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        animation: fadeInBody 1s ease forwards;
+    }
+
+    nav.container-fluid {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border-radius: 0 0 12px 12px;
+      width: 100vw;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    nav a, nav strong {
+      color: var(--text-primary) !important;
+    }
+
+    nav ul {
+      margin: 0;
+      padding: 0.75em 1.5em;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: var(--button-end);
+    }
+
+    main.container {
+      background: rgba(30, 41, 59, 0.65); /* glass effect */
+      border-radius: 16px;
+      padding: 36px;
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 0.7s ease;
+    }
+
+    h2 {
+      font-size: 2.25rem;
+      margin-bottom: 0.3em;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    h3 {
+      font-weight: 400;
+      margin-bottom: 1.7em;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+    }
+
+    form.grid {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"] {
+      padding: 16px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--input-border);
+      font-size: 1.1em;
+      background: var(--input-bg);
+      color: var(--text-primary);
+      transition: border 0.3s ease, background 0.3s ease;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus {
+      border-color: var(--input-focus);
+      background: #1e293b;
+      outline: none;
+      box-shadow: 0 0 8px var(--input-focus);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      font-size: 1.2rem;
+      padding: 16px 0;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--button-start), var(--button-end));
+      color: #fff;
+      border: none;
+      box-shadow: 0 6px 20px var(--shadow-color);
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover,
+    button[type="submit"]:focus {
+      background: linear-gradient(90deg, var(--button-hover-start), var(--button-hover-end));
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 1.05em;
+      text-align: center;
+      margin-top: 1.25em;
+    }
+
+    p a {
+      color: var(--button-end);
+      text-decoration: underline;
+      transition: color 0.3s ease;
+      font-weight: 600;
+    }
+
+    p a:hover {
+      color: var(--button-hover-end);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      main.container {
+        padding: 32px 20px;
+        margin: 40px 10px;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
+      h3 {
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></li>
+    </ul>
+    <ul>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="container" style="margin-top: 20px; margin-bottom: 20px;">
+    <hgroup>
+      <h2>Sign Up</h2>
+      <h3>Create your account to get started.</h3>
+    </hgroup>
+
+    <form  method="post" action="{{ url_for('signup') }}" class="grid" onsubmit="return validateForm()" name="signupForm" novalidate>
+      <input type="text" id="username" name="username" placeholder="Create Username" required />
+      <input type="password" id="password" name="password" placeholder="Create Password" required />
+      <input type="text" id="name" name="name" placeholder="Enter Name" required />
+      <input type="email" id="email" name="email" placeholder="Enter Email" required />
+      <input type="number" id="experience" name="experience" placeholder="Enter Years of Experience" min="0" required />
+      <input type="text" id="designation" name="designation" placeholder="Enter Job Title" required />
+      <input type="text" id="skills" name="skills" placeholder="Enter Skills (e.g. Java, Python)" required />
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Already have an account? <br /><a href="{{ url_for('login') }}">Login</a></p>
+  </main>
+
+  <script>
+    window.onload = function () {
+      var error = "{{ error }}";
+      if (error === "username_exists") {
+        alert("Username already exists!");
+      }
+    };
+
+    function validateEmail(email) {
+      var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!re.test(email)) {
+        alert("Invalid email format!");
+        return false;
+      }
+      return true;
+    }
+
+    function validateUsername(username) {
+      if (username.length < 6 || username.length > 20) {
+        alert("Username must be between 6 to 20 characters long!");
+        return false;
+      }
+      if (/\s/.test(username)) {
+        alert("Username should not contain spaces. Use underscores instead!");
+        return false;
+      }
+      if (!/^[a-zA-Z]/.test(username)) {
+        alert("Username should start with an alphabet!");
+        return false;
+      }
+      if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        alert("Username should contain alphanumeric characters and underscores only!");
+        return false;
+      }
+      return true;
+    }
+
+    function validatePassword(password) {
+      if (password.length < 8) {
+        alert("Password must contain minimum 8 characters!");
+        return false;
+      }
+      return true;
+    }
+
+    function validateForm() {
+      var f = document.forms["signupForm"];
+      var username = f["username"].value.trim();
+      var password = f["password"].value.trim();
+      var name = f["name"].value.trim();
+      var email = f["email"].value.trim();
+      var experience = f["experience"].value.trim();
+      var designation = f["designation"].value.trim();
+      var skills = f["skills"].value.trim();
+
+      if (
+        !username ||
+        !password ||
+        !name ||
+        !email ||
+        !experience ||
+        !designation ||
+        !skills
+      ) {
+        alert("Please enter all the fields!");
+        return false;
+      }
+
+      if (!validateUsername(username)) return false;
+      if (!validatePassword(password)) return false;
+      if (!validateEmail(email)) return false;
+
+      return true;
+    }
+  </script>
+</body>
+</html>
