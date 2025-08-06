@@ -6,18 +6,19 @@ from dotenv import load_dotenv
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATES_DIR = os.path.join(BASE_DIR, '../frontend')
+TEMPLATES_DIR = os.path.join(BASE_DIR, '../frontend/templates')
 STATIC_DIR = os.path.join(BASE_DIR, '../frontend/static')
 
 app = Flask(__name__, static_folder=STATIC_DIR, template_folder=TEMPLATES_DIR)
 
 
-
-
-# MongoDB sanga connection garako
 load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+
+# MongoDB sanga connection garako 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['MONGO_URI'] = os.getenv('MONGO_URI')
+
 client = MongoClient(app.config['MONGO_URI'])
 
 db = client[os.getenv('DATABASE_NAME')]
