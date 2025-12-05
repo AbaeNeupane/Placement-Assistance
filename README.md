@@ -1,4 +1,4 @@
-This project is the job recommentdaion system and uses two algorithm **"Content based filtering via (Tf-IDF and Cosine Similarity) and Jaccard's Algorithm".**
+This project is the job recommentdaion system and uses two algorithm **"Content based filtering via (Tf-IDF and Cosine Similarity) and Jaccard's Algorithm".** <br>
 Has Raw Recommendation algorithm implemented
 Had Resume parsing Module
 Has Proper Authentication
