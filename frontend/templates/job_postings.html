@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Postings | Placement Assistance</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+body {
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+              url('/static/job posting.jpg') center/cover no-repeat fixed;
+  color: #edf2f7;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+nav {
+  background: #2d3748;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 12px 12px;
+}
+nav a, nav strong {
+  color: #edf2f7;
+  text-decoration: none;
+  font-weight: 600;
+}
+h1, h3 {
+  color: #a5b4fc;
+  text-align: center;
+  margin-bottom: 24px;
+  text-shadow: 0 0 8px #6366f1;
+}
+.container {
+  max-width: 1100px;
+  margin: 60px auto;
+  background: rgba(30,41,59,0.85);
+  padding: 32px;
+  border-radius: 18px;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+th, td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background-color: #022968;
+  color: white;
+  border-radius: 6px;
+}
+tr:nth-child(even) {
+  background-color: rgba(255,255,255,0.05);
+}
+
+td[data-label="Description"] {
+  white-space: normal;
+  word-break: break-word;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 4px 0;
+  min-width: 100px;
+  text-align: center;
+}
+.btn-success { background-color: #10b981; }
+.btn-success:hover { background-color: #059669; }
+.btn-primary { background-color: #043e9c; width: 100px;}
+.btn-primary:hover { background-color: #2563eb; }
+.btn-danger { background-color: #8b0404; border: none; width: 100px; }
+.btn-danger:hover { background-color: #b91c1c; }
+form.inline { display: inline; }
+@media(max-width:768px) {
+  table, thead, tbody, th, td, tr { display: block; }
+  tr { margin-bottom: 15px; }
+  td { padding-left: 50%; position: relative; }
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+  }
+}
+
+  .clickable-row { cursor: pointer; }
+  .clickable-row:hover { background-color: rgba(99,102,241,0.15); }
+</style>
+</head>
+<body>
+<nav>
+  <strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong>
+  <div>
+    <a href="{{ url_for('about') }}">About</a> | 
+    <a href="{{ url_for('logout') }}">Log Out</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Current Job Postings</h1>
+  <h3>Here are the current job postings from {{ company }}.</h3>
+  <a href="{{ url_for('add_job') }}" class="btn btn-success">Add Job</a>
+  <div>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary" style="width: fit-content;">Back<--</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Job ID</th>
+        <th>Job Title</th>
+        <th>Experience</th>
+        <th>Key Skills</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for job in jobs %}
+      <tr class="clickable-row" data-href="{{ url_for('job_details', job_id=job['job id']) }}">
+        <td data-label="Job ID">{{ job['job id'] }}</td>
+        <td style="max-width: fit-content;" data-label="Job Title">{{ job['Job Title'] }}</td>
+        <td data-label="Experience">{{ job['Job Experience'] }}</td>
+        <td data-label="Key Skills">{{ job['Key Skills'] }}</td>
+        <td data-label="Description">{{ job['Job Description'] }}</td> 
+        <td data-label="Actions">
+          <a href="{{ url_for('edit_job', job_id=job['job id']) }}" class="btn btn-primary">Edit</a>
+          <form action="{{ url_for('delete_job', job_id=job['job id']) }}" method="POST" class="inline">
+            <button type="submit" onclick="return confirm('To confirm delete press ok.')" class="btn btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  document.addEventListener('click', function(e) {
+    const row = e.target.closest('.clickable-row');
+    if (!row) return;
+    if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('form')) return;
+    window.location.href = row.dataset.href;
+  });
+</script>
+</body>
+</html>

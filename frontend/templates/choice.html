@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Your Role</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #4b6cb7;
+      --primary-dark: #2e3b55;
+      --card-bg: rgba(255, 255, 255, 0.05);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/static/meeting.jpg") no-repeat center center fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInBody 1s ease forwards;
+    }
+
+    nav.container-fluid {
+      background-color: rgba(18, 24, 38, 0.95);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    nav a, nav strong {
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #8ab4f8 !important;
+    }
+
+    main.container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 60px 30px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      margin-bottom: 40px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+
+    .roles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+    }
+
+    .role-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(100px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      width: 100%;
+      max-width: 420px;
+      padding: 40px 30px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .role-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 48px rgba(0, 0, 0, 0.6);
+    }
+
+    .role-card i {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      color: #93c5fd;
+    }
+
+    .role-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #f1f5f9;
+    }
+
+    .role-description {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .role-card button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .role-card button:hover {
+      background: linear-gradient(135deg, #3551a1, #1c2a44);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 700px) {
+      .roles {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong>
+    <a href="{{ url_for('about') }}">About</a>
+  </nav>
+
+  <main class="container">
+    <b><h2>Select Your Role</h2></b>
+
+    <div class="roles">
+      <!-- Job Seeker Card -->
+      <div class="role-card">
+        <i class="fas fa-user-graduate"></i>
+        <h3>Job Seeker</h3>
+        <p class="role-description">
+          Browse tailored job listings, upload your resume, and get matched with opportunities that fit your profile.
+        </p>
+        <button>Continue as Job Seeker</button>
+      </div>
+
+      <!-- Recruiter Card -->
+      <div class="role-card">
+        <i class="fas fa-briefcase"></i>
+        <h3>Recruiter</h3>
+        <p class="role-description">
+          Post job openings, manage applicants, and discover top talent that aligns with your hiring needs.
+        </p>
+        <button>Continue as Recruiter</button>
+      </div>
+    </div>
+  </main>
+  <script>
+    document.querySelectorAll('.role-card button').forEach(button => {
+      button.addEventListener('click', () => {
+        const role = button.parentElement.querySelector('h3').textContent;
+        if (role === 'Job Seeker') {
+          window.location.href = "{{ url_for('login') }}";
+        } else if (role === 'Recruiter') {
+          window.location.href = "{{ url_for('recruiter_login') }}";
+        }
+      });
+    });
+    </script>
+</body>
+</html>

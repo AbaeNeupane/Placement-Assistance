@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Signup | Placement Assistance</title>
+  <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --background-start: #0f172a;
+      --background-end: #1e293b;
+      --card-bg: #1e293b;
+      --text-primary: #e0e7ff;
+      --text-secondary: #94a3b8;
+      --input-bg: #334155;
+      --input-border: #64748b;
+      --input-focus: #2563eb;
+      --button-start: #2563eb;
+      --button-end: #3b82f6;
+      --button-hover-start: #1e40af;
+      --button-hover-end: #2563eb;
+      --shadow-color: rgba(37, 99, 235, 0.3);
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url("/static/signup.jpg") no-repeat center center fixed;
+      color: var(--text-primary);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInBody 1s ease forwards;
+    }
+
+    nav.container-fluid {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border-radius: 0 0 12px 12px;
+      width: 100vw;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    nav a, nav strong {
+      color: var(--text-primary) !important;
+    }
+
+    nav ul {
+      margin: 0;
+      padding: 0.75em 1.5em;
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+    }
+
+    main.container {
+      background: rgba(30, 41, 59, 0.65);
+      border-radius: 16px;
+      padding: 36px;
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 0.7s ease;
+    }
+
+    h2 {
+      font-size: 2.25rem;
+      margin-bottom: 0.3em;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    h3 {
+      font-weight: 400;
+      margin-bottom: 1.7em;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+    }
+
+    form.grid {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="number"] {
+      padding: 16px 14px;
+      border-radius: 10px;
+      border: 1.5px solid var(--input-border);
+      font-size: 1.1em;
+      background: var(--input-bg);
+      color: var(--text-primary);
+      transition: border 0.3s ease, background 0.3s ease;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+      width: 100%;
+    }
+
+    input:focus {
+      border-color: var(--input-focus);
+      background: #1e293b;
+      outline: none;
+      box-shadow: 0 0 8px var(--input-focus);
+    }
+
+    .password-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-container input {
+      width: 100%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 22px;
+      height: 22px;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .toggle-password:hover {
+      opacity: 1;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      font-size: 1.2rem;
+      padding: 16px 0;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--button-start), var(--button-end));
+      color: #fff;
+      border: none;
+      box-shadow: 0 6px 20px var(--shadow-color);
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, var(--button-hover-start), var(--button-hover-end));
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 1.05em;
+      text-align: center;
+      margin-top: 1.25em;
+    }
+
+    p a {
+      color: var(--button-end);
+      text-decoration: underline;
+      transition: color 0.3s ease;
+      font-weight: 600;
+    }
+
+    p a:hover {
+      color: var(--button-hover-end);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cv-helper { border: 1px dashed var(--input-border); border-radius: 10px; padding: 14px; background: rgba(51,65,85,.35); }
+    .cv-status { display:block; font-size:.95rem; color: var(--text-secondary); margin-top:6px; min-height:1.2em; }
+    .btn-busy { opacity: .7; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></li>
+    </ul>
+    <ul>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="container" style="margin-top: 20px; margin-bottom: 20px;">
+    <hgroup>
+      <h2>Sign Up</h2>
+      <h3>Create your account to get started.</h3>
+    </hgroup>
+
+    <!-- enctype added is harmless even if file isn't submitted;
+         useful if you later submit the CV with the form -->
+    <form method="post" action="{{ url_for('signup') }}" class="grid" onsubmit="return validateForm()" name="signupForm" novalidate enctype="multipart/form-data" autocomplete="off">
+      <input type="text" id="username" name="username" placeholder="Create Username" required autocomplete="new-username" />
+
+      <div class="password-container">
+        <input type="password" id="password" name="password" placeholder="Create Password" required autocomplete="new-password" />
+        <img src="/static/icons/eye.png" id="togglePassword" class="toggle-password" alt="Show Password" />
+      </div>
+
+      <input type="text" id="name" name="name" placeholder="Enter Name" required />
+      <input type="email" id="email" name="email" placeholder="Enter Email" required />
+      <input type="number" id="experience" name="experience" placeholder="Enter Years of Experience" min="0" required />
+      <input type="text" id="designation" name="designation" placeholder="Enter Job Title" required />
+      <input type="text" id="skills" name="skills" placeholder="Enter Skills (e.g. Java, Python)" required />
+
+      <!-- Form for CV Autofill -->
+      <div class="cv-helper">
+        <label for="cvFile"><strong>Auto-fill from CV (optional)</strong></label>
+        <input id="cvFile" name="cvFile" type="file" accept=".pdf,.doc,.docx,.txt" />
+        <button type="button" id="btnAutoFill">Auto-fill from CV</button>
+        <small id="cvStatus" class="cv-status" aria-live="polite"></small>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Already have an account? <br /><a href="{{ url_for('login') }}">Login</a></p>
+  </main>
+
+  <script>
+    // Defer until DOM is ready
+    document.addEventListener("DOMContentLoaded", function () {
+      const err = "{{ error }}";
+      if (err) {
+        // show any error passed by backend (supports both 'username_exists' and message strings)
+        alert(err === "username_exists" ? "Username already exists!" : err);
+      }
+
+      const expEl = document.getElementById("experience");
+      if (expEl) {
+        expEl.addEventListener("input", function() {
+          if (this.value < 0) this.value = 0;
+        });
+      }
+
+      const passwordInput = document.getElementById("password");
+      const togglePassword = document.getElementById("togglePassword");
+      if (togglePassword && passwordInput) {
+        togglePassword.addEventListener("click", () => {
+          const isHidden = passwordInput.type === "password";
+          passwordInput.type = isHidden ? "text" : "password";
+          togglePassword.src = isHidden ? "/static/icons/eye-slash.png" : "/static/icons/eye.png";
+          togglePassword.alt = isHidden ? "Hide Password" : "Show Password";
+        });
+      }
+    });
+
+    function validateEmail(email) {
+      const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!re.test(email)) {
+        alert("Invalid email format!");
+        return false;
+      }
+      return true;
+    }
+
+    function validateUsername(username) {
+      if (username.length < 4 || username.length > 20) {
+        alert("Username must be between 4 to 20 characters long!");
+        return false;
+      }
+      if (/\s/.test(username)) {
+        alert("Username should not contain spaces!");
+        return false;
+      }
+      if (!/^[a-zA-Z]/.test(username)) {
+        alert("Username should start with an alphabet!");
+        return false;
+      }
+      if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        alert("Username should contain only letters, numbers, and underscores!");
+        return false;
+      }
+      return true;
+    }
+
+    function validatePassword(password) {
+      if (password.length < 6) {
+        alert("Password must contain at least 6 characters!");
+        return false;
+      }
+      return true;
+    }
+
+    function validateForm() {
+      const f = document.forms["signupForm"];
+      const username = f["username"].value.trim();
+      const password = f["password"].value.trim();
+      const name = f["name"].value.trim();
+      const email = f["email"].value.trim();
+      const experience = f["experience"].value.trim();
+      const designation = f["designation"].value.trim();
+      const skills = f["skills"].value.trim();
+
+      if (!username || !password || !name || !email || !experience || !designation || !skills) {
+        alert("Please enter all fields!");
+        return false;
+      }
+
+      if (!validateUsername(username)) return false;
+      if (!validatePassword(password)) return false;
+      if (!validateEmail(email)) return false;
+
+      if (Number(experience) < 0) {
+        alert("Experience cannot be negative!");
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+
+  <!-- CV auto-fill logic -->
+  <script>
+    async function autoFillFromCV() {
+      const fileInput = document.getElementById("cvFile");
+      const statusEl = document.getElementById("cvStatus");
+      const btn = document.getElementById("btnAutoFill");
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        statusEl.textContent = "Please choose a CV file first.";
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const allowed = [".pdf", ".doc", ".docx", ".txt"];
+      const ext = ("." + (file.name.split(".").pop() || "")).toLowerCase();
+      if (!allowed.includes(ext)) {
+        statusEl.textContent = "Only .pdf, .doc, .docx or .txt are allowed.";
+        return;
+      }
+
+      // (Optional) 10 MB client-side limit
+      const MAX_SIZE = 10 * 1024 * 1024;
+      if (file.size > MAX_SIZE) {
+        statusEl.textContent = "File is too large (max 10 MB).";
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("cv", file);
+
+      statusEl.textContent = "Parsing CV…";
+      btn.classList.add("btn-busy");
+      btn.disabled = true;
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
+        const res = await fetch("/api/parse_cv", { method: "POST", body: formData, signal: controller.signal });
+        clearTimeout(timeout);
+
+        if (!res.ok) {
+          statusEl.textContent = "Server error while parsing CV.";
+          btn.classList.remove("btn-busy"); btn.disabled = false;
+          return;
+        }
+
+        const json = await res.json();
+        if (!json || !json.success) {
+          statusEl.textContent = (json && json.message) ? json.message : "Could not parse CV.";
+          btn.classList.remove("btn-busy"); btn.disabled = false;
+          return;
+        }
+
+        const d = json.data || {};
+        const byId = (id) => document.getElementById(id);
+
+        if (byId("name") && d.name) byId("name").value = d.name;
+        if (byId("email") && d.email) byId("email").value = d.email;
+        if (byId("experience") && d.experience !== undefined && d.experience !== null && d.experience !== "") {
+          byId("experience").value = d.experience;
+        }
+        if (byId("designation") && d.designation) byId("designation").value = d.designation;
+
+        if (byId("skills")) {
+          if (Array.isArray(d.skills) && d.skills.length) {
+            const current = (byId("skills").value || "").split(",").map(s => s.trim()).filter(Boolean);
+            const merged = Array.from(new Set([...current, ...d.skills]));
+            byId("skills").value = merged.join(", ");
+          }
+        }
+
+        statusEl.textContent = "Auto-filled from CV. Please review before submitting.";
+      } catch (e) {
+        console.error(e);
+        statusEl.textContent = (e.name === "AbortError") ? "Parsing timed out. Try again." : "Error parsing CV.";
+      } finally {
+        btn.classList.remove("btn-busy");
+        btn.disabled = false;
+      }
+    }
+
+    const btnAutoFill = document.getElementById("btnAutoFill");
+    if (btnAutoFill) btnAutoFill.addEventListener("click", autoFillFromCV);
+  </script>
+</body>
+</html>

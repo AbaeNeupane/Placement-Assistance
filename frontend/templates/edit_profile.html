@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edit Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111827;
+      color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background: #1f2937;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #60a5fa;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #9ca3af;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 6px;
+      background: #374151;
+      color: #f9fafb;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #4338ca 0%, #2563eb 100%);
+      transform: translateY(-2px);
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #a5b4fc;
+    }
+  </style>
+</head>
+<body>
+  <form action="{{ url_for('edit_profile') }}" method="POST">
+    <h2>Edit Profile</h2>
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" value="{{ user.name }}" required />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{ user.email }}" required />
+
+    <label for="experience">Experience (years)</label>
+    <input type="number" id="experience" name="experience" value="{{ user.experience }}" required />
+
+    <label for="designation">Designation</label>
+    <input type="text" id="designation" name="designation" value="{{ user.designation }}" required />
+
+    <label for="skills">Skills</label>
+    <input type="text" id="skills" name="skills" value="{{ user.skills }}" required />
+
+    <button type="submit"> Save Changes</button>
+    <a class="back-link" href="{{ url_for('view_my_profile') }}">⬅ Back to Profile</a>
+  </form>
+
+  <script>
+    document.getElementById("experience").addEventListener("input", function() {
+        if (this.value < 0) this.value = 0;
+      });
+  </script>
+</body>
+</html>

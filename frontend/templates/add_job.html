@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Job | Placement Assistance</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+body {
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+              url('/static/job posting.jpg') center/cover no-repeat fixed;
+  color: #edf2f7;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+nav {
+  background: #2d3748;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 12px 12px;
+}
+nav a, nav strong {
+  color: #edf2f7;
+  text-decoration: none;
+  font-weight: 600;
+}
+h1 {
+  text-align: center;
+  color: #93c5fd;
+  margin-bottom: 24px;
+  text-shadow: 0 0 8px #2563eb;
+}
+.container {
+  max-width: 640px;
+  margin: 60px auto;
+  background: rgba(30,41,59,0.85);
+  padding: 32px;
+  border-radius: 18px;
+}
+label {
+  display: block;
+  margin-bottom: 1rem;
+}
+input, textarea, button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 4px;
+  font-size: 1rem;
+}
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+button {
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background-color: #1e40af;
+  transform: scale(1.02);
+}
+.btn-danger {
+  display: inline-block;
+  text-align: center;
+  background-color: #8b0404;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  width: 100%;
+}
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+</style>
+</head>
+<body>
+<nav>
+  <strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong>
+  <div>
+    <a href="{{ url_for('about') }}">About</a> | 
+    <a href="{{ url_for('logout') }}">Log Out</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Add New Job ({{ company }})</h1>
+  <form method="POST">
+    <label>Job ID <input type="text" name="job_id" required></label>
+    <label>Job Title <input type="text" name="title" required></label>
+    <label>Salary <input type="text" name="salary" required></label>
+    <label>Experience <input type="text" name="experience" required></label>
+    <label>Key Skills <input type="text" name="skills" required></label>
+    <label>Job Description
+      <textarea name="description" placeholder="Enter job description here..." required></textarea>
+    </label>
+    <button type="submit">Add Job</button>
+    <a href="{{ url_for('job_postings') }}" class="btn btn-danger" style="margin-top:10px;">Cancel</a>
+  </form>
+</div>
+</body>
+</html>

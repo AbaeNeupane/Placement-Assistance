@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | Placement Assistance</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root {
+      --background: #0f172a;
+      --text: #f8fafc;
+      --input-bg: #1e293b;
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/static/login.jpg") no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(50px);
+      color: var(--text);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav.container-fluid {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text);
+      border-radius: 0 0 12px 12px;
+      width: 100vw;
+    }
+
+    nav a, nav strong {
+      color: var(--text) !important;
+    }
+
+    .login-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: row;
+      padding: 80px 5vw 40px;
+      flex: 1;
+      gap: 48px;
+      animation: fadeIn 0.7s ease;
+    }
+
+    .login-info {
+      max-width: 400px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .login-info h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3em;
+      animation: slideDown 0.6s ease;
+    }
+
+    .login-info h4 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #cbd5e1;
+      animation: slideDown 0.6s ease;
+    }
+
+    .login-card {
+       background: rgba(30, 41, 59, 0.65); /* glass effect */
+      border-radius: 16px;
+      padding: 10px;
+      margin-left: 40px;
+      max-width: 450px;
+      max-height: 600px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 0.5s ease;
+    }
+
+    .login-card h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .login-card h4 {
+      text-align: center;
+      font-weight: 400;
+      color: #cbd5e1;
+      margin-bottom: 1.5em;
+    }
+
+    form.grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 260px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    input[type="text"], input[type="password"] {
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: var(--input-bg);
+      color: var(--text);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6366f1;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9em;
+      margin-top: -5px;
+    }
+
+    .form-options label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button[type="submit"] {
+      padding: 14px;
+      font-size: 1.1em;
+      font-weight: 600;
+      background: linear-gradient(90deg, #6366f1, #3b82f6);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, #4338ca, #2563eb);
+      transform: translateY(-2px);
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 1.4em;
+      font-size: 0.95em;
+    }
+
+    .signup-link a {
+      color: #a5b4fc;
+      text-decoration: underline;
+    }
+
+    .signup-link a:hover {
+      color: #818cf8;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .login-wrapper {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 60px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .login-card {
+        padding: 24px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></li>
+    </ul>
+    <ul>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+    </ul>
+  </nav>
+
+  <main class="login-wrapper">
+    <section class="login-info">
+      <b><h1>Welcome Back</h1></b>
+      <b><h3>Connect to your account to discover jobs tailored to your skills and career goals.</h3></b>
+    </section>
+
+    <section class="login-card">
+      <h2>Login</h2>
+      <h4>Please enter your credentials</h4>
+      <form class="grid" method="post" action="{{ url_for('login') }}" onsubmit="handleSubmit(event)">
+        <input type="text" id="username" name="username" placeholder="Username" autocomplete="username" required />
+        <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required />
+
+        <div class="form-options">
+          <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
+        </div>
+
+        <button type="submit" id="loginBtn">Login</button>
+      </form>
+
+      <div class="signup-link">
+        <p>Don't have an account?<br><a href="{{ url_for('signup') }}">Sign up here</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+    }
+
+    function handleSubmit(event) {
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.textContent = "Logging in...";
+    }
+
+    window.onload = function () {
+      const saved = localStorage.getItem('rememberedUsername');
+      if (saved) {
+        document.getElementById('username').value = saved;
+      }
+
+
+      const error = "{{ error }}";
+      if (error === "username_not_found") {
+        alert('Username does not exist!');
+      } else if (error === "incorrect_password") {
+        alert('Incorrect password!');
+      }
+    };
+  </script>
+</body>
+</html>

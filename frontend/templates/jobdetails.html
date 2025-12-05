@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ job['Job Title'] }} | Placement Assistance</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    body {
+      background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                  url('/static/job posting.jpg') center/cover no-repeat fixed;
+      color: #edf2f7; font-family: 'Segoe UI', sans-serif; margin: 0;
+    }
+    nav { background:#2d3748; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; border-radius:0 0 12px 12px; }
+    nav a, nav strong { color:#edf2f7; text-decoration:none; font-weight:600; }
+    h1, h2, h3 { color:#a5b4fc; text-shadow:0 0 8px #6366f1; }
+    .container { max-width:1100px; margin:40px auto; background:rgba(30,41,59,0.85); padding:28px; border-radius:18px; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card { background:rgba(2, 41, 104, 0.25); padding:18px; border-radius:12px; }
+    .badge { display:inline-block; background:#043e9c; padding:4px 10px; border-radius:999px; margin:4px 6px 0 0; font-size:0.85rem; }
+    a.candidate { display:block; padding:10px 12px; margin:8px 0; border-radius:10px; background:rgba(255,255,255,0.06); text-decoration:none; color:#edf2f7; }
+    a.candidate:hover { background:rgba(99,102,241,0.25); }
+    .small { color:#cbd5e1; font-size:0.9rem; }
+  </style>
+</head>
+<body>
+<nav>
+  <strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong>
+  <div>
+    <a href="{{ url_for('about') }}">About</a> |
+    <a href="{{ url_for('logout') }}">Log Out</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>{{ job['Job Title'] }}</h1>
+  <p class="small">Job ID: {{ job['job id'] }} • Company ID: {{ job['company id'] }}</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Overview</h3>
+      <p><strong>Experience:</strong> {{ job['Job Experience'] }}</p>
+      <p><strong>Industry:</strong> {{ job.get('Industry','-') }}</p>
+      <p><strong>Functional Area:</strong> {{ job.get('Functional Area','-') }}</p>
+      <p><strong>Salary:</strong> {{ job.get('Job Salary','Not Disclosed') }}</p>
+      <p><strong>Description:</strong><br>{{ job['Job Description'] }}</p>
+      <div style="margin-top:10px;">
+        <strong>Key Skills:</strong><br>
+        {% for s in job['Key Skills'].split(',') %}
+          <span class="badge">{{ s.strip() }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3>Best Matches (not yet applied)</h3>
+        {% if best_candidates_not_applied %}
+          {% for c in best_candidates_not_applied %}
+            <a class="candidate" href="{{ url_for('applicant_details',
+                    user_id=c['_id']|string,
+                    job_id=job['job id'],
+                    score='%.2f' % c['match_score']) }}">
+                <strong>{{ c.get('fullname') or c.get('username') or 'Candidate' }}</strong>
+              <div class="small">
+                Skills: {{ (c.get('skills_text') or c.get('skills') or '-') }}<br>
+                 Experience: {{ c.get('experience_years', c.get('experience', 0)) }} years • Match: {{ '%.2f' % c['match_score'] }}
+
+              </div>
+            </a>
+          {% endfor %}
+        {% else %}
+          <p class="small">No suitable candidates found who haven’t applied yet.</p>
+        {% endif %}
+      </div>
+
+      <div class="card" style="margin-top: 16px;">
+        <h3>Best Matches (already applied)</h3>
+        {% if best_candidates_applied %}
+          {% for c in best_candidates_applied %}
+            <a class="candidate" href="{{ url_for('applicant_details',
+                    user_id=c['_id']|string,
+                    job_id=job['job id'],
+                    score='%.2f' % c['match_score']) }}">
+                <strong>{{ c.get('fullname') or c.get('username') or 'Candidate' }}</strong>
+              <div class="small">
+                Skills: {{ (c.get('skills_text') or c.get('skills') or '-') }}<br>
+                Experience: {{ c.get('experience_years', c.get('experience', 0)) }} years • Match: {{ '%.2f' % c['match_score'] }}
+              </div>
+            </a>
+          {% endfor %}
+        {% else %}
+          <p class="small">No applicants yet who also rank as best matches.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;">
+    <a href="{{ url_for('job_postings') }}" class="button">← Back to Job Postings</a>
+  </div>
+</div>
+</body>
+</html>

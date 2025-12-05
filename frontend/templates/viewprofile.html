@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <style>
+    :root {
+      --bg-dark: #111827;
+      --card-bg: #1f2937;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --accent: #6366f1;
+      --hover-accent: #818cf8;
+      --danger: #ef4444;
+      --hover-danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
+
+    body {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/static/userprofile.jpg') center/cover no-repeat fixed;
+      color: var(--text-primary);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0; padding: 0;
+    }
+
+    header {
+      background: #1e293b;
+      color: #fff;
+      border-radius: 0 0 14px 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      height: 56px;
+    }
+
+    nav a, nav strong {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+
+    nav a:hover { color: var(--hover-accent); }
+
+    main.container {
+      background: rgba(30, 41, 59, 0.65);
+      max-width: 700px;
+      margin: 40px auto;
+      border-radius: 14px;
+      box-shadow: 0 8px 36px rgba(0,0,0,0.3);
+      overflow: hidden;
+      padding-bottom: 24px;
+    }
+
+    .profile-cover {
+      background: linear-gradient(135deg, rgb(21, 42, 87), rgb(30, 41, 59));
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .profile-cover h2 { font-size: 2.4rem; font-weight: 700; margin: 0; }
+
+    .profile-card { padding: 36px 24px 28px; text-align: center; }
+
+    .profile-info-list {
+      max-width: 420px;
+      margin: 0 auto 28px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .profile-info-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 12px;
+    }
+
+    .profile-info-row:last-child { border-bottom: none; }
+
+    .profile-info-label {
+      color: var(--accent);
+      font-size: 1.12rem;
+      font-weight: 600;
+    }
+
+    .profile-info-value {
+      color: var(--text-secondary);
+      font-size: 1.12em;
+      word-break: break-word;
+      text-align: right;
+    }
+
+    input[type="file"] {
+      background: var(--card-bg);
+      color: var(--text-secondary);
+      border: 1px solid #374151;
+      border-radius: 6px;
+      padding: 8px;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    input[type="submit"] {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    input[type="submit"]:hover { background: var(--hover-accent); }
+
+    .cv-section {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #374151;
+      text-align: center;
+    }
+
+    .cv-section a { color: var(--hover-accent); font-weight: 600; }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 400px;
+      margin: 0 auto;
+      padding-top: 10px;
+    }
+
+    .button-container .btn { width: 100%; padding: 14px 0; font-size: 1.12rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+
+    .btn-primary { background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%); color: #fff; }
+    .btn-primary:hover { background: linear-gradient(90deg, #4338ca 0%, #2563eb 100%); transform: translateY(-2px) scale(1.04); }
+
+    .btn-secondary { background: linear-gradient(90deg, #10b981 0%, #34d399 100%); color: #fff; }
+    .btn-secondary:hover { background: linear-gradient(90deg, #059669 0%, #16a34a 100%); transform: translateY(-2px) scale(1.04); }
+
+    .btn-danger { background: linear-gradient(90deg, var(--danger) 0%, #f87171 100%); color: #fff; }
+    .btn-danger:hover { background: linear-gradient(90deg, var(--hover-danger) 0%, #dc2626 100%); transform: translateY(-2px) scale(1.04); }
+
+    /* Row for Edit/Delete buttons */
+    .edit-delete-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .edit-delete-row .btn { flex: 1; }
+
+    /* Responsive: stack edit/delete vertically on small screens */
+    @media (max-width: 500px) {
+      .edit-delete-row { flex-direction: column; }
+    }
+
+    @media (max-width: 700px) {
+      main.container { margin-top: 20px; }
+      .profile-info-list { padding: 20px; }
+      .profile-cover h2 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></div>
+      <div>
+        <a href="{{ url_for('about') }}">About</a> |
+        <a href="{{ url_for('logout') }}">Log Out</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="profile-cover">
+      <h2>{{ name }}</h2>
+    </div>
+
+    <section class="profile-card">
+      <div class="profile-info-list">
+        <div class="profile-info-row">
+          <span class="profile-info-label">👤 Username</span>
+          <span class="profile-info-value">{{ username }}</span>
+        </div>
+        <div class="profile-info-row">
+          <span class="profile-info-label">📧 Email</span>
+          <span class="profile-info-value">{{ email }}</span>
+        </div>
+        <div class="profile-info-row">
+          <span class="profile-info-label">💼 Experience</span>
+          <span class="profile-info-value">{{ experience }} years</span>
+        </div>
+        <div class="profile-info-row">
+          <span class="profile-info-label">🎯 Job Title</span>
+          <span class="profile-info-value">{{ designation }}</span>
+        </div>
+        <div class="profile-info-row">
+          <span class="profile-info-label">🛠 Skills</span>
+          <span class="profile-info-value">{{ skills }}</span>
+        </div>
+        <div class="profile-info-row">
+          <form action="{{ url_for('upload_cv') }}" method="POST" enctype="multipart/form-data" class="profile-info-label">
+            <label for="cv"><i>Uploading CV can maximize your chances of being hired (optional).</i></label><br>
+            <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+            <input type="submit" value="Upload CV"><br>
+            <a class="back-link" href="{{ url_for('view_my_profile') }}">...</a>
+          </form>
+        </div>
+      </div>
+
+      {% if cv_url %}
+      <div class="cv-section">
+        <p>Your CV is uploaded.</p>
+        <a href="{{ cv_url }}" target="_blank">Download/View CV</a>
+      </div>
+      {% endif %}
+
+      <div class="button-container">
+        <!-- Recommend Jobs -->
+        <button class="btn btn-primary" id="recommendBtn">Recommend Jobs</button>
+
+        <!-- Edit & Delete side by side (responsive) -->
+        <div class="edit-delete-row">
+          <button class="btn btn-secondary" id="editBtn">Edit Profile</button>
+          <button class="btn btn-danger" id="deleteBtn">Delete Account</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("recommendBtn").addEventListener("click", function() {
+      window.location.href = "/recommend_jobs";
+    });
+
+    document.getElementById("editBtn").addEventListener("click", function() {
+      window.location.href = "/edit_profile";
+    });
+
+    document.getElementById("deleteBtn").addEventListener("click", function() {
+      const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+      if (confirmDelete) {
+        fetch("/delete_profile", { method: "POST" })
+          .then(response => {
+            if (response.ok) {
+              alert("Your account has been deleted.");
+              window.location.href = "/";
+            } else {
+              alert("Failed to delete account. Please try again.");
+            }
+          })
+          .catch(error => console.error("Error:", error));
+      }
+    });
+  </script>
+</body>
+</html>
+

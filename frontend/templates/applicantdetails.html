@@ -1,0 +1,459 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Profile</title>
+  <style>
+    :root {
+      --bg-dark: #111827;
+      --card-bg: #1f2937;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --accent: #6366f1;
+      --hover-accent: #818cf8;
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/userprofile.jpg') center/cover no-repeat fixed;
+      color: var(--text-primary);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #1e293b;
+      color: #fff;
+      border-radius: 0 0 14px 14px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      height: 56px;
+    }
+
+    nav a,
+    nav strong {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+
+    nav a:hover {
+      color: var(--hover-accent);
+    }
+
+    main.container {
+      background: rgba(30, 41, 59, 0.65);
+      max-width: 700px;
+      margin: 40px auto;
+      border-radius: 14px;
+      box-shadow: 0 8px 36px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .profile-cover {
+      background: linear-gradient(135deg, rgb(21, 42, 87), rgb(30, 41, 59));
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .profile-cover h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .profile-card {
+      padding: 36px 24px 28px;
+      text-align: center;
+    }
+
+    .profile-info-list {
+      max-width: 420px;
+      margin: 0 auto 28px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .profile-info-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 12px;
+    }
+
+    .profile-info-row:last-child {
+      border-bottom: none;
+    }
+
+    .profile-info-label {
+      color: var(--accent);
+      font-size: 1.12rem;
+      font-weight: 600;
+    }
+
+    .profile-info-value {
+      color: var(--text-secondary);
+      font-size: 1.12em;
+      word-break: break-word;
+      text-align: right;
+    }
+
+    .profile-actions {
+      margin-top: 24px;
+    }
+
+    .profile-actions button {
+      font-size: 1.12rem;
+      padding: 14px 36px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .profile-actions button:hover,
+    .profile-actions button:focus {
+      background: linear-gradient(90deg, #4338ca 0%, #2563eb 100%);
+      transform: translateY(-2px) scale(1.04);
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px) {
+      main.container {
+        margin-top: 20px;
+      }
+
+      .profile-info-list {
+        padding: 20px;
+      }
+
+      .profile-cover h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></div>
+      <div>
+        <a href="{{ url_for('about') }}">About</a> |
+        <a href="{{ url_for('logout') }}">Log Out</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="profile-cover">
+      <h2>{{ user.name }}</h2>
+    </div>
+
+    <section class="profile-card">
+      <div class="profile-info-list">
+        <div class="profile-info-row">
+          <span class="profile-info-label">👤 Username</span>
+          <span class="profile-info-value">{{ user.username }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">📧 Email</span>
+          <span class="profile-info-value">{{ user.email }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">💼 Experience</span>
+          <span class="profile-info-value">{{ user.experience }} years</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">🎯 Job Title</span>
+          <span class="profile-info-value">{{ user.designation }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">🛠 Skills</span>
+          <span class="profile-info-value">{{ user.skills }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">🆔 Job ID</span>
+          <span class="profile-info-value">{{ user.applied_job_id }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">📊 Similarity Score</span>
+          <span class="profile-info-value">{{ user.final_similarity_score }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          {% if user.cv_url %}
+            <a href="{{ user.cv_url }}" target="_blank" class="btn btn-primary">📄 View CV</a>
+          {% else %}
+            <span style="color: gray;">No CV uploaded</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="profile-actions" style="margin-top: 20px;">
+        <button onclick="window.open('mailto:{{ user.email }}', '_blank')">
+          Contact Now
+        </button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Profile</title>
+  <style>
+    :root {
+      --bg-dark: #111827;
+      --card-bg: #1f2937;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --accent: #6366f1;
+      --hover-accent: #818cf8;
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/userprofile.jpg') center/cover no-repeat fixed;
+      color: var(--text-primary);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #1e293b;
+      color: #fff;
+      border-radius: 0 0 14px 14px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      height: 56px;
+    }
+
+    nav a,
+    nav strong {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+
+    nav a:hover {
+      color: var(--hover-accent);
+    }
+
+    main.container {
+      background: rgba(30, 41, 59, 0.65);
+      max-width: 700px;
+      margin: 40px auto;
+      border-radius: 14px;
+      box-shadow: 0 8px 36px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .profile-cover {
+      background: linear-gradient(135deg, rgb(21, 42, 87), rgb(30, 41, 59));
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      position: relative;
+    }
+
+    .profile-cover h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .profile-card {
+      padding: 36px 24px 28px;
+      text-align: center;
+    }
+
+    .profile-info-list {
+      max-width: 420px;
+      margin: 0 auto 28px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .profile-info-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 12px;
+    }
+
+    .profile-info-row:last-child {
+      border-bottom: none;
+    }
+
+    .profile-info-label {
+      color: var(--accent);
+      font-size: 1.12rem;
+      font-weight: 600;
+    }
+
+    .profile-info-value {
+      color: var(--text-secondary);
+      font-size: 1.12em;
+      word-break: break-word;
+      text-align: right;
+    }
+
+    .profile-actions {
+      margin-top: 24px;
+    }
+
+    .profile-actions button {
+      font-size: 1.12rem;
+      padding: 14px 36px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .profile-actions button:hover,
+    .profile-actions button:focus {
+      background: linear-gradient(90deg, #4338ca 0%, #2563eb 100%);
+      transform: translateY(-2px) scale(1.04);
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px) {
+      main.container {
+        margin-top: 20px;
+      }
+
+      .profile-info-list {
+        padding: 20px;
+      }
+
+      .profile-cover h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div><strong><a href="{{ url_for('welcome') }}">Placement Assistance</a></strong></div>
+      <div>
+        <a href="{{ url_for('about') }}">About</a> |
+        <a href="{{ url_for('logout') }}">Log Out</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="profile-cover">
+      <h2>{{ user.name }}</h2>
+    </div>
+
+    <section class="profile-card">
+      <div class="profile-info-list">
+        <div class="profile-info-row">
+          <span class="profile-info-label">👤 Username</span>
+          <span class="profile-info-value">{{ user.username }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">📧 Email</span>
+          <span class="profile-info-value">{{ user.email }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">💼 Experience</span>
+          <span class="profile-info-value">{{ user.experience }} years</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">🎯 Job Title</span>
+          <span class="profile-info-value">{{ user.designation }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">🛠 Skills</span>
+          <span class="profile-info-value">{{ user.skills }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">🆔 Job ID</span>
+          <span class="profile-info-value">{{ job_id if job_id else "-" }}</span>
+        </div>
+
+        <div class="profile-info-row">
+          <span class="profile-info-label">📊 Similarity Score</span>
+          <span class="profile-info-value">
+            {% if similarity_score %}
+              {{ (similarity_score | float * 100) | round(1) }}%
+            {% else %}
+              -
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="profile-info-row" style="justify-content: center; border-bottom: none;">
+          {% if cv_url %}
+            <a href="{{ cv_url }}" target="_blank" class="btn btn-primary">📄 View CV</a>
+          {% else %}
+            <span style="color: gray;">No CV uploaded</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="profile-actions" style="margin-top: 20px;">
+        <button onclick="window.open('mailto:{{ user.email }}', '_blank')">Contact Now</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
